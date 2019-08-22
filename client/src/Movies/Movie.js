@@ -22,14 +22,8 @@ export default class Movie extends React.Component {
   }
 
   deleteItem = (id) => {
-    // event.preventDefault();
     axios
       .delete(`http://localhost:5000/api/movies/${id}`)
-  //     .then(res => {
-  //       props.updateItems(res.data);
-  //       props.history.push('/item-list');
-  //     })
-  //     .catch(err => console.log(err.response));
   }
 
   fetchMovie = id => {
@@ -57,13 +51,11 @@ export default class Movie extends React.Component {
           </button>
         </NavLink>
         
-        
           <button onClick={() => this.deleteItem(this.state.movie.id)} className="delete-button">
             Delete
           </button>
         
-        
-        <MovieCard movie={this.state.movie} />
+      <MovieCard movie={this.state.movie} />
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>

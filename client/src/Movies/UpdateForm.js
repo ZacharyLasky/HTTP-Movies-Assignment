@@ -12,12 +12,8 @@ export default function UpdateForm(props) {
 
   const [item, setItem] = useState(initialItem);
   const [stars, setStars] = useState([]);
-  
-  // useEffect(() => {
-    const id = props.match.params.id;
-    // const itemInArr = props.items.find(item => `${item.id}` === id);
-  //   if (itemInArr) setItem(itemInArr);
-  // }, [props.items, props.match.params.id]);
+
+  const id = props.match.params.id;
 
   const changeHandler = event => {
     event.preventDefault();
@@ -47,7 +43,6 @@ export default function UpdateForm(props) {
       .then(res => {
         console.log(res);
         setItem(initialItem);
-        // props.updateItems(res.data);
         props.history.push('/item-list');
       })
       .catch(err => console.log(err.response));
@@ -89,7 +84,6 @@ export default function UpdateForm(props) {
           name="stars"
           onChange={changeHandlerStars}
           placeholder="stars"
-          // value={item.stars}
         />
         <button className="md-button form-button">Update</button>
       </form>
