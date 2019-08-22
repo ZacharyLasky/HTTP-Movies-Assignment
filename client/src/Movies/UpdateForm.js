@@ -1,45 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const initialItem = {
- id: "",
- title: "",
- director: "",
- metascore: "",
- stars: []
-};
-
 export default function UpdateForm(props) {
 
+  const initialItem = {
+    id: props.match.params.id,
+    title: "",
+    director: "",
+    metascore: ""
+  };
+
   const [item, setItem] = useState(initialItem);
+  const [stars, setStars] = useState([]);
   
-  useEffect(() => {
+  // useEffect(() => {
     const id = props.match.params.id;
-    const itemInArr = props.items.find(item => `${item.id}` === id);
-    if (itemInArr) setItem(itemInArr);
-  }, [props.items, props.match.params.id]);
+    // const itemInArr = props.items.find(item => `${item.id}` === id);
+  //   if (itemInArr) setItem(itemInArr);
+  // }, [props.items, props.match.params.id]);
 
   const changeHandler = event => {
-    event.prevententdefault();
+    event.preventDefault();
     let value = event.target.value;
-    if (event.target.name === 'price') {
-      value = parseInt(value, 10);
-    }
-
     setItem({
       ...item,
       [event.target.name]: value
     });
   };
 
+  const changeHandlerStars = event => {
+    event.preventDefault();
+    let value = event.target.value;
+    setStars({
+      ...stars,
+      [event.target.name]: [event.target.value]
+    });
+  };
+
+  const movieInfo = {...item, ...stars}
+  console.log(movieInfo)
+  
   const handleSubmit = e => {
-    e.prevententDefault();
+    e.preventDefault();
     axios
-      .put(`http://localhost:3333/items/${item.id}`, item)
+      .put(`http://localhost:5000/api/movies/${id}`, movieInfo)
       .then(res => {
         console.log(res);
         setItem(initialItem);
-        props.updateItems(res.data);
+        // props.updateItems(res.data);
         props.history.push('/item-list');
       })
       .catch(err => console.log(err.response));
@@ -69,7 +77,7 @@ export default function UpdateForm(props) {
 
         <input
           type="text"
-          name="metascores"
+          name="metascore"
           onChange={changeHandler}
           placeholder="metascore"
           value={item.metascore}
@@ -79,9 +87,9 @@ export default function UpdateForm(props) {
         <input
           type="array"
           name="stars"
-          onChange={changeHandler}
+          onChange={changeHandlerStars}
           placeholder="stars"
-          value={item.stars}
+          // value={item.stars}
         />
         <button className="md-button form-button">Update</button>
       </form>
